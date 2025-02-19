@@ -6,14 +6,19 @@ import 'package:provider/provider.dart';
 import 'package:ai_study_assistant/theme_provider.dart';
 import 'package:ai_study_assistant/SplashScreen.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+
   );
 
+
   runApp(
-    ChangeNotifierProvider(
+
+
+  ChangeNotifierProvider(
       create: (context) => ThemeProvider(),
       child: const MyApp(),
     ),

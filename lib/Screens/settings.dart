@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ai_study_assistant/Authentication_Pages/SignUp.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -27,9 +28,12 @@ class SettingsPage extends StatelessWidget {
             // Profile Image (Custom Icon)
             Center(
               child: CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.grey[300],
-                child: Icon(Icons.person_2, size: 60, color: Colors.blueAccent), // Custom Icon
+                radius: 30,
+                backgroundColor: Colors.white,
+                child: Text(
+                  username[0].toUpperCase(),
+                  style: GoogleFonts.lato(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                ),
               ),
             ),
             SizedBox(height: 20),

@@ -58,7 +58,7 @@ class _SignupState extends State<Signup> {
               Form(
                 key: _formKey,
                 child: Container(
-                  width: 400,
+                  width: 385,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -149,7 +149,7 @@ class _SignupState extends State<Signup> {
     return TextFormField(
       controller: controller,
       keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
-      style: GoogleFonts.lato(fontSize: 20, color: Colors.white),
+      style: GoogleFonts.lato(fontSize: 16, color: Colors.white),
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: hint,
@@ -217,19 +217,34 @@ class _SignupState extends State<Signup> {
   Future<void> _signUpWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return; // User canceled the sign-in
+      if (googleUser == null) return; // User canceled sign-in
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final OAuthCredential credential = GoogleAuthProvider.credential(
+      final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      await auth.signInWithCredential(credential);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const Home()),
-      );
+      // Sign in user
+      UserCredential userCredential = await auth.signInWithCredential(credential);
+      User? user = userCredential.user;
+
+      if (user != null) {
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          // New user, can store additional info if needed
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Home()),
+          );
+        } else {
+          // Existing user, just sign in
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const Home()),
+          );
+        }
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -245,7 +260,7 @@ class _SignupState extends State<Signup> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            e.toString(),
+            "Error: ${e.toString()}",
             style: GoogleFonts.lato(fontSize: 16, color: Colors.white),
           ),
           backgroundColor: Colors.red,
@@ -254,4 +269,5 @@ class _SignupState extends State<Signup> {
       );
     }
   }
+
 }

@@ -1,12 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import '../theme_provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
-import 'package:ai_study_assistant/Screens/settings.dart';
 import 'package:ai_study_assistant/Authentication_Pages/SignUp.dart';
+import 'package:ai_study_assistant/Screens/daily_task.dart';
 import 'package:ai_study_assistant/widgets/custom_appbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:ai_study_assistant/Screens/Weekly.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:ai_study_assistant/Screens/study_plan.dart';
+import 'package:ai_study_assistant/Screens/progress_tracker.dart';
+import 'package:ai_study_assistant/Screens/settings.dart';
+import 'package:ai_study_assistant/Authentication_Pages/Login.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -17,32 +20,58 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     String? email = FirebaseAuth.instance.currentUser?.email;
     String username = email != null ? email.split('@').first.capitalize() : 'Guest';
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: CustomAppBar(),
-      drawer: _buildDrawer(context, username, email, themeProvider.isDarkMode),
+      drawer: _buildDrawer(context, username, email, isDarkMode),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
-            _buildWelcomeMessage(username, themeProvider.isDarkMode),
+            _buildWelcomeMessage(username, isDarkMode),
             const SizedBox(height: 5),
             Text(
               getFormattedDateTime(),
               style: GoogleFonts.lato(fontSize: 18, color: Colors.grey[700]),
             ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                children: [
+                  _buildCard(context, "Daily Scheduler", Icons.schedule, Colors.blue, TaskSchedulerPage()),
+
+                  _buildCard(context, "AI Created Study Plan", Icons.auto_graph, Colors.orange, StudyPlanPage()),
+                  _buildCard(context, "AI Study Tips", Icons.lightbulb, Colors.teal, StudyPlanPage()),
+
+                  _buildCard(context, "Exam Countdown", Icons.alarm, Colors.purple, StudyPlanPage()),
+                  _buildCard(context, "Weekly  Scheduler", Icons.bar_chart, Colors.green, WeeklySchedulerPage()),
+                  _buildCard(context, "Focus Mode", Icons.timer, Colors.red, StudyPlanPage()),
+                ],
+              ),
+            ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        onTap: (index) {},
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Calendar'),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
+        ],
       ),
     );
   }
 
-  // **Welcome Message**
   Widget _buildWelcomeMessage(String username, bool isDarkMode) {
     return Row(
       children: [
@@ -53,21 +82,20 @@ class Home extends StatelessWidget {
           style: GoogleFonts.lato(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white : Colors.black, // White in dark mode
+            color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
       ],
     );
   }
 
-  // **Drawer with Dynamic Header**
   Widget _buildDrawer(BuildContext context, String username, String? email, bool isDarkMode) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: isDarkMode ? Colors.black : Colors.deepPurple), // Black in dark mode
+            decoration: BoxDecoration(color: isDarkMode ? Colors.black : Colors.deepPurple),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -86,11 +114,7 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       "Hello, $username!",
-                      style: GoogleFonts.lato(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: GoogleFonts.lato(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       email ?? "Not Logged In",
@@ -101,13 +125,59 @@ class Home extends StatelessWidget {
               ],
             ),
           ),
+          _drawerItem(Icons.home, "Home", () => Navigator.pop(context)),
+          _drawerItem(Icons.phone, "Contact Us", () {}),
+          _drawerItem(Icons.privacy_tip, "Privacy Policy", () {}),
+          _drawerItem(Icons.share, "Share", () {}),
+          _drawerItem(Icons.star, "Rate App", () {}),
+          _drawerItem(Icons.settings, "Settings", () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+          }),
+          _drawerItem(Icons.logout, "Logout", () async {
+            await FirebaseAuth.instance.signOut();
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup()));
+          }),
         ],
+      ),
+    );
+  }
+
+  Widget _drawerItem(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.deepPurple),
+      title: Text(title, style: GoogleFonts.lato(fontSize: 18)),
+      onTap: onTap,
+    );
+  }
+
+  Widget _buildCard(BuildContext context, String title, IconData icon, Color color, Widget page) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 4,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 45, color: color),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-// **Extension for Capitalization**
 extension StringExtension on String {
   String capitalize() {
     return isNotEmpty ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : this;

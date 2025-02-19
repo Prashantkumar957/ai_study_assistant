@@ -50,6 +50,9 @@ dev_dependencies:
   firebase_auth: ^5.3.4
   cloud_firestore: ^5.6.3
   percent_indicator: ^4.2.4
+  url_launcher: ^6.1.11
+  share: ^2.0.4
+  store_redirect: ^2.0.1
 
   google_sign_in: ^6.2.2
   fluttertoast: ^8.2.10

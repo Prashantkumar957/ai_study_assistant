@@ -12,7 +12,7 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
   String _studyPlan = "Enter a topic to generate a study plan.";
   bool _isLoading = false;
 
-  final String apiKey = "AIzaSyAIHCysHRu-rWRO4d7anZlRFCJYXNCYPxU";
+  final String apiKey = "??";
   final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
 
   Future<void> generateStudyPlan(String topic) async {

@@ -14,7 +14,7 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isLoading = false;
   int _messageCount = 0; // Counter for user messages
   final int _maxMessages = 3; // Max messages allowed before reset
-  final String apiKey = "AIzaSyD_Nh-47V0zjIOPhO1RsvvletXjTb4j9Zw";
+  final String apiKey = "??";
   final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
 
   Future<void> sendMessage(String message) async {
@@ -135,6 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         : null, // Disable if limit reached
                   )
                 ],
+                // android studio verison string=AIzaSyD_Nh-47V0zjIOPhO1RsvvletXjTb4j9Zw
               ),
             ),
         ],
@@ -142,3 +143,4 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
+

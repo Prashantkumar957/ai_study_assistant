@@ -14,16 +14,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return AppBar(
-      backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.deepPurple, // Black in dark mode
+      backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.blue, // Black in dark mode
       elevation: 4,
       iconTheme: const IconThemeData(color: Colors.white), // Ensures the drawer icon is always white
       title: Text(
+        textAlign: TextAlign.justify,
         'AI Study Planner',
+
         style: GoogleFonts.lato(
           fontSize: 22,
           fontWeight: FontWeight.bold,
-          color: Colors.white, // Keeps text color white
+          color: Colors.white,
+
+          // Keeps text color white
         ),
+
+
+
       ),
       actions: [
         IconButton(

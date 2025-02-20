@@ -1,5 +1,6 @@
 import 'package:ai_study_assistant/Authentication_Pages/SignUp.dart';
 import 'package:ai_study_assistant/Screens/daily_task.dart';
+import 'package:ai_study_assistant/Screens/study_tips.dart';
 import 'package:ai_study_assistant/widgets/custom_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,10 @@ class Home extends StatelessWidget {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(
+
+      ),
+
       drawer: _buildDrawer(context, username, email, isDarkMode),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -49,7 +53,7 @@ class Home extends StatelessWidget {
                   _buildCard(context, "Daily Scheduler", Icons.schedule, Colors.blue, TaskSchedulerPage()),
 
                   _buildCard(context, "AI Created Study Plan", Icons.auto_graph, Colors.orange, StudyPlanPage()),
-                  _buildCard(context, "AI Study Tips", Icons.lightbulb, Colors.teal, StudyPlanPage()),
+                  _buildCard(context, "AI Study Tips", Icons.lightbulb, Colors.teal, ChatScreen()),
 
                   _buildCard(context, "Exam Countdown", Icons.alarm, Colors.purple, StudyPlanPage()),
                   _buildCard(context, "Weekly  Scheduler", Icons.bar_chart, Colors.green, WeeklySchedulerPage()),
@@ -60,15 +64,18 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {},
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Calendar'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
-        ],
+      bottomNavigationBar: SafeArea(
+        child: BottomNavigationBar(
+          currentIndex: 0,
+          onTap: (index) {},
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home', backgroundColor: Colors.blue),
+            BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Calendar'),
+            BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
+          ],
+        ),
       ),
+
     );
   }
 
@@ -95,7 +102,7 @@ class Home extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: isDarkMode ? Colors.black : Colors.deepPurple),
+            decoration: BoxDecoration(color: isDarkMode ? Colors.black : Colors.blue),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -114,11 +121,11 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       "Hello, $username!",
-                      style: GoogleFonts.lato(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.lato(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       email ?? "Not Logged In",
-                      style: GoogleFonts.lato(fontSize: 16, color: Colors.white70),
+                      style: GoogleFonts.lato(fontSize: 15, color: Colors.white70),
                     ),
                   ],
                 ),
@@ -144,7 +151,7 @@ class Home extends StatelessWidget {
 
   Widget _drawerItem(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: Colors.deepPurple),
+      leading: Icon(icon, color: Colors.blue),
       title: Text(title, style: GoogleFonts.lato(fontSize: 18)),
       onTap: onTap,
     );

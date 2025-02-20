@@ -102,7 +102,7 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
                   ),
                 ),
                 SizedBox(width: 15,),
-                Image.asset("assets/images/google_logo.png", height: 50, width: 50),
+                Image.asset("assets/images/img.png", height: 50, width: 50),
               ],
             ),
           ),

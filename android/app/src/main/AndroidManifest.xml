@@ -1,11 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:label="ai_study_assistant"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <!-- Facebook Ads -->
+        <meta-data
+            android:name="com.facebook.ads.AD_SETTINGS"
+            android:value="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -33,7 +43,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.

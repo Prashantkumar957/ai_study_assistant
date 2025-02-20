@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.prashantkumar.ai_study_assistant.ai_study_assistant"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

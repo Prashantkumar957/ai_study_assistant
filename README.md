@@ -1,16 +1,52 @@
-# ai_study_assistant
+# 📚 AI Study Assistant App  
 
-A new Flutter project.
+An AI-powered **Study Planner & Doubt Solver** built with **Flutter**. This app helps students with **AI-powered study planning, doubt solving, scheduling, and exam reminders** using **Firebase** and **Gemini API**.  
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🌟 Features  
 
-A few resources to get you started if this is your first Flutter project:
+### 🤖 AI-Powered Chat & Doubt Solver  
+- Get instant answers to study-related questions using **Gemini AI**.  
+- Supports text-based and voice-based queries.  
+- Personalized AI recommendations based on past queries.  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 📅 AI Study Planner  
+- **Daily & Weekly Planner**: Plan and track study sessions.  
+- **Smart Scheduling**: AI recommends study sessions based on exam dates and difficulty.  
+- **Task Prioritization**: AI suggests priority subjects based on upcoming deadlines.  
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 📆 Exam Scheduler  
+- Add and manage upcoming **exam dates**.  
+- AI helps optimize study time before exams.  
+- **Countdown Timer** for upcoming tests.  
+
+### 📝 Smart Notes & Reminders  
+- AI-generated **study summaries**.  
+- Convert voice notes to text.  
+- **Set Reminders** for study tasks.  
+
+### 🔔 Notifications & Alerts  
+- Daily study reminders.  
+- AI-based progress insights.  
+- Exam preparation alerts.  
+
+---
+
+## 🛠️ Tech Stack  
+
+- **Framework**: Flutter (Dart)  
+- **Backend**: Firebase Firestore  
+- **Authentication**: Firebase Auth  
+- **AI Services**: Gemini API  
+- **Cloud Storage**: Firebase Storage  
+- **Push Notifications**: Firebase Cloud Messaging (FCM)  
+
+---
+
+## 🚀 Installation  
+
+### 1️⃣ Clone the repository  
+```sh
+git clone https://github.com/yourusername/AI-Study-Assistant.git
+cd AI-Study-Assistant

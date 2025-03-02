@@ -9,12 +9,14 @@ An AI-powered **Study Planner & Doubt Solver** built with **Flutter**. This app 
 ### 🤖 AI-Powered Chat & Doubt Solver  
 - Get instant answers to study-related questions using **Gemini AI**.  
 - Supports text-based and voice-based queries.  
-- Personalized AI recommendations based on past queries.  
+- Personalized AI recommendations based on past queries. ![Screenshot 2025-02-20 090922](https://github.com/user-attachments/assets/bbe64e1c-4e88-4266-b8ec-6f176a092cf2)
+ 
 
 ### 📅 AI Study Planner  
 - **Daily & Weekly Planner**: Plan and track study sessions.  
 - **Smart Scheduling**: AI recommends study sessions based on exam dates and difficulty.  
-- **Task Prioritization**: AI suggests priority subjects based on upcoming deadlines.  
+- **Task Prioritization**: AI suggests priority subjects based on upcoming deadlines.  ![Screenshot 2025-02-19 205635](https://github.com/user-attachments/assets/0bf13ef6-d6b7-4667-921d-315c2974d8d4)
+
 
 ### 📆 Exam Scheduler  
 - Add and manage upcoming **exam dates**.  
@@ -24,7 +26,8 @@ An AI-powered **Study Planner & Doubt Solver** built with **Flutter**. This app 
 ### 📝 Smart Notes & Reminders  
 - AI-generated **study summaries**.  
 - Convert voice notes to text.  
-- **Set Reminders** for study tasks.  
+- **Set Reminders** for study tasks.  ![Screenshot 2025-02-20 154730](https://github.com/user-attachments/assets/8cd67a8e-d46d-4d6a-be17-d12620ce0fc7)
+
 
 ### 🔔 Notifications & Alerts  
 - Daily study reminders.  

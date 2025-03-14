@@ -1,10 +1,27 @@
 import 'dart:convert';
+import 'package:ai_study_assistant/Authentication_Pages/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:http/http.dart' as http;
 
-import 'package:ai_study_assistant/ad_helper.dart'; // Import your AdHelper class
+import 'package:ai_study_assistant/ad_helper.dart'; // Import the AdHelper class
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MobileAds.instance.initialize();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: FirebaseAuth.instance.currentUser == null ? LoginScreen() : ChatScreen(),
+    );
+  }
+}
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -15,27 +32,23 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   List<Map<String, String>> chatMessages = [];
   bool _isLoading = false;
-  int _messageCount = 0; // Counter for user messages
-  final int _maxMessages = 3; // Max messages allowed before reset
-  final String apiKey = "??";
-  final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
+  int _messageCount = 0;
+  final int _maxMessages = 3;
+  final String apiKey = "AIzaSyD_Nh-47V0zjIOPhO1RsvvletXjTb4j9Zw"; // Replace with your actual API key
   final AdHelper _adHelper = AdHelper();
 
   @override
   void initState() {
     super.initState();
-    _adHelper.loadBannerAd1(); // Load first banner ad
-    _adHelper.loadBannerAd2(); // Load second banner ad
-    _adHelper.loadBannerAd3(); // Load third banner ad
+    _adHelper.loadBannerAd1();
+    _adHelper.loadBannerAd2();
+    _adHelper.loadBannerAd3();
   }
 
   Future<void> sendMessage(String message) async {
     if (_messageCount >= _maxMessages) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Message limit reached! Watch an ad to continue."),
-          backgroundColor: Colors.red,
-        ),
+        SnackBar(content: Text("Message limit reached! Watch an ad to continue."), backgroundColor: Colors.red),
       );
       return;
     }
@@ -44,15 +57,16 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       _isLoading = true;
       chatMessages.add({"sender": "user", "text": message});
-      _messageCount++; // Increment counter
+      _messageCount++;
     });
 
     final response = await http.post(
-      Uri.parse("$apiUrl$apiKey"),
+      Uri.parse("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=$apiKey"),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "contents": [
           {
+            "role": "user",
             "parts": [
               {"text": message}
             ]
@@ -63,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
-      String botReply = responseData['candidates'][0]['content']['parts'][0]['text'] ?? "No response from AI.";
+      String botReply = responseData['candidates']?[0]['content']?['parts']?[0]['text'] ?? "No response from AI.";
 
       setState(() {
         chatMessages.add({"sender": "bot", "text": botReply});
@@ -81,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void resetMessageCounter() {
     setState(() {
-      _messageCount = 0; // Reset counter
+      _messageCount = 0;
     });
   }
 
@@ -91,9 +105,6 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(title: Text("Chat with AI")),
       body: Column(
         children: [
-          // First Ad Banner
-          _adHelper.getBannerAdWidget1(),
-
           Expanded(
             child: ListView.builder(
               itemCount: chatMessages.length,
@@ -116,18 +127,16 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
 
-          // Second Ad Banner
-          _adHelper.getBannerAdWidget2(),
-
           if (_messageCount >= _maxMessages)
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
                 onPressed: () {
+                  _adHelper.showInterstitialAd();
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Watch an ad to continue chatting!"))
                   );
-                  resetMessageCounter(); // Reset message limit after ad
+                  resetMessageCounter();
                 },
                 child: Text("Watch Ad to Continue"),
               ),
@@ -154,14 +163,15 @@ class _ChatScreenState extends State<ChatScreen> {
                       sendMessage(_messageController.text);
                       _messageController.clear();
                     }
-                        : null, // Disable if limit reached
+                        : null,
                   )
                 ],
               ),
             ),
 
-          // Third Ad Banner
           _adHelper.getBannerAdWidget3(),
+          _adHelper.getBannerAdWidget2(),
+          _adHelper.getBannerAdWidget1(),
         ],
       ),
     );

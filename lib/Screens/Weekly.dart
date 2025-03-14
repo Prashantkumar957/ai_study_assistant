@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'package:ai_study_assistant/ad_helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,9 +37,17 @@ class _WeeklySchedulerPageState extends State<WeeklySchedulerPage> {
   List<Map<String, dynamic>> tasks = [];
   double progress = 0.0;
   String? userEmail;
+  final AdHelper _adHelper = AdHelper();
 
   @override
   void initState() {
+
+    _adHelper.loadInterstitialAd();
+    _adHelper.showInterstitialAd();
+    _adHelper.loadBannerAd1(); // Load first banner ad
+    _adHelper.loadBannerAd2(); // Load second banner ad
+    _adHelper.loadBannerAd3();
+
     super.initState();
     _fetchCurrentUser();
     _initializeWeekDays();
@@ -216,7 +226,7 @@ class _WeeklySchedulerPageState extends State<WeeklySchedulerPage> {
                   child: TextField(
                     controller: _taskController,
                     decoration: InputDecoration(
-                      hintText: "Enter new task",
+                      hintText: "Enter task here and then click on add",
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -260,10 +270,12 @@ class _WeeklySchedulerPageState extends State<WeeklySchedulerPage> {
             ),
           ),
 
-          // Add Task Section
-
+          _adHelper.getBannerAdWidget2(),
+          _adHelper.getBannerAdWidget3(),
         ],
+
       ),
+
     );
   }
 }

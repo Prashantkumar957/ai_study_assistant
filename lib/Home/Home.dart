@@ -14,7 +14,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:ai_study_assistant/Screens/study_plan.dart';
 import 'package:ai_study_assistant/Screens/settings.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'package:ai_study_assistant/ad_helper.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -24,7 +26,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+  final AdHelper _adHelper = AdHelper();
 
+  @override
+  void initState() {
+    super.initState();
+    _adHelper.loadBannerAd1();
+    _adHelper.loadBannerAd2(); // Load a single banner ad
+    _adHelper.loadBannerAd3(); // Load a banner ad
+  }
   final List<Widget> _pages = [
     HomeContent(),
     CalendarPage(),
@@ -96,14 +106,17 @@ class _HomeState extends State<Home> {
             ),
           ),
           _drawerItem(Icons.home, "Home",() {
+            _adHelper.showInterstitialAd();
           Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
           }),
 
-          _drawerItem(Icons.smart_toy, "Chat with AI", () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
+          _drawerItem(Icons.smart_toy, "Chat with AI", () {            _adHelper.showInterstitialAd();
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
           }),
 
           _drawerItem(Icons.notifications_active, "Notifications", () {
+
             Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
           }),
 
@@ -246,6 +259,7 @@ class HomeContent extends StatelessWidget {
       elevation: 4,
       child: InkWell(
         onTap: () {
+
           Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         },
         child: Padding(

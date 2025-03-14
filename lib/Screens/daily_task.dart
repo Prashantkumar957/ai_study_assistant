@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'package:ai_study_assistant/ad_helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -50,8 +52,17 @@ class _TaskSchedulerPageState extends State<TaskSchedulerPage> {
     }
   }
 
+  final AdHelper _adHelper = AdHelper();
+
   @override
   void initState() {
+
+    _adHelper.loadInterstitialAd();
+    _adHelper.showInterstitialAd();
+
+    _adHelper.loadBannerAd1(); // Load first banner ad
+    _adHelper.loadBannerAd2(); // Load second banner ad
+    _adHelper.loadBannerAd3();
     super.initState();
     _getUser();
   }
@@ -178,7 +189,7 @@ class _TaskSchedulerPageState extends State<TaskSchedulerPage> {
             TextField(
               controller: _taskController,
               decoration: InputDecoration(
-                labelText: 'Enter Task',
+                labelText: 'Enter Task Pick Task time then click on "+ "Icon ',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -222,6 +233,10 @@ class _TaskSchedulerPageState extends State<TaskSchedulerPage> {
                 },
               ),
             ),
+
+            _adHelper.getBannerAdWidget1(),
+
+            _adHelper.getBannerAdWidget3(),
           ],
         ),
       ),

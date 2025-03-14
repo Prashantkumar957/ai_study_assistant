@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:ai_study_assistant/ad_helper.dart';
 
 class StudyPlanPage extends StatefulWidget {
   @override
@@ -12,10 +14,22 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
   String _studyPlan = "Enter a topic to generate a study plan.";
   bool _isLoading = false;
 
-  final String apiKey = "??";
-  final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
+  final String apiKey = "AIzaSyD_Nh-47V0zjIOPhO1RsvvletXjTb4j9Zw";
+  final String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=";
+  final AdHelper _adHelper = AdHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _adHelper.loadInterstitialAd();
+    _adHelper.loadBannerAd1();
+    _adHelper.loadBannerAd2();
+    _adHelper.loadBannerAd3();
+  }
 
   Future<void> generateStudyPlan(String topic) async {
+    _adHelper.showInterstitialAd();
+
     if (topic.isEmpty) {
       setState(() {
         _studyPlan = "Please enter a topic!";
@@ -65,6 +79,7 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
       });
     } finally {
       setState(() {
+        _adHelper.showInterstitialAd();
         _isLoading = false;
       });
     }
@@ -73,37 +88,21 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70), // Custom AppBar Height
-        child: Container(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("AI Study Planner", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(width: 10),
+            Image.asset("assets/images/img.png", height: 40),
+          ],
+        ),
+        flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.deepPurple, Colors.purpleAccent],
               begin: Alignment.bottomRight,
               end: Alignment.topRight,
-            ),
-          ),
-          child: SafeArea(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-
-                Center(
-
-                  child: Text(
-                    "AI Study Planner",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-
-                    
-                  ),
-                ),
-                SizedBox(width: 15,),
-                Image.asset("assets/images/img.png", height: 50, width: 50),
-              ],
             ),
           ),
         ),
@@ -120,25 +119,19 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // 🟢 Book Logo Below Title
-
-
-              // 🟡 Text Field with Prefix Icon
               TextField(
                 controller: _topicController,
                 decoration: InputDecoration(
                   labelText: "Enter Subject or Topic",
                   filled: true,
                   fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.menu_book, color: Colors.deepPurple), // Book Icon
+                  prefixIcon: Icon(Icons.menu_book, color: Colors.deepPurple),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
               SizedBox(height: 10),
-
-              // 🟠 Generate Button
               ElevatedButton(
                 onPressed: _isLoading ? null : () => generateStudyPlan(_topicController.text),
                 style: ElevatedButton.styleFrom(
@@ -151,14 +144,9 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
                 ),
                 child: _isLoading
                     ? CircularProgressIndicator(color: Colors.white)
-                    : Text(
-                  "Generate Study Plan",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+                    : Text("Generate Study Plan", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ),
               SizedBox(height: 20),
-
-              // 🟢 Study Plan Output
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
@@ -167,13 +155,16 @@ class _StudyPlanPageState extends State<StudyPlanPage> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Text(
-                      _studyPlan,
-                      style: TextStyle(fontSize: 16),
-                    ),
+                    child: Text(_studyPlan, style: TextStyle(fontSize: 16)),
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              _adHelper.getBannerAdWidget1(),
+              SizedBox(height: 10),
+              _adHelper.getBannerAdWidget2(),
+              SizedBox(height: 10),
+              _adHelper.getBannerAdWidget3(),
             ],
           ),
         ),

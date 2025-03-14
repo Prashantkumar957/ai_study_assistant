@@ -1,7 +1,7 @@
 import 'package:ai_study_assistant/Home/Home.dart';
 import 'package:ai_study_assistant/ad_helper.dart';
-//import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +10,11 @@ import 'package:ai_study_assistant/SplashScreen.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'ad_helper.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AdHelper.initialize();
+  MobileAds.instance.initialize();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 
@@ -43,6 +46,8 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
+
+
 
 class _MyAppState extends State<MyApp> {
   @override

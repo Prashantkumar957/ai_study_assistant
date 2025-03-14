@@ -4,8 +4,26 @@ import 'package:ai_study_assistant/Authentication_Pages/SignUp.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SettingsPage extends StatelessWidget {
+import '../ad_helper.dart';
+
+class SettingsPage extends StatefulWidget {
+
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  final AdHelper _adHelper = AdHelper();
+ // Instance of AdHelper
+  @override
+  void initState() {
+    super.initState();
+    _adHelper.loadBannerAd1();
+    _adHelper.loadBannerAd2(); // Load a single banner ad
+    _adHelper.loadBannerAd3(); // Load a banner ad
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +120,11 @@ class SettingsPage extends StatelessWidget {
                 }
               },
             ),
+
+            _adHelper.getBannerAdWidget1(),
+            _adHelper.getBannerAdWidget2(),
+            _adHelper.getBannerAdWidget3(),
+
           ],
         ),
       ),

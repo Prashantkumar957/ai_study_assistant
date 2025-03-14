@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import 'package:ai_study_assistant/ad_helper.dart'; // Import your AdHelper class
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -16,13 +19,24 @@ class _ChatScreenState extends State<ChatScreen> {
   final int _maxMessages = 3; // Max messages allowed before reset
   final String apiKey = "??";
   final String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
+  final AdHelper _adHelper = AdHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _adHelper.loadBannerAd1(); // Load first banner ad
+    _adHelper.loadBannerAd2(); // Load second banner ad
+    _adHelper.loadBannerAd3(); // Load third banner ad
+  }
 
   Future<void> sendMessage(String message) async {
     if (_messageCount >= _maxMessages) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Message limit reached! Watch an ad to continue."),
-        backgroundColor: Colors.red,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Message limit reached! Watch an ad to continue."),
+          backgroundColor: Colors.red,
+        ),
+      );
       return;
     }
 
@@ -77,6 +91,9 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(title: Text("Chat with AI")),
       body: Column(
         children: [
+          // First Ad Banner
+          _adHelper.getBannerAdWidget1(),
+
           Expanded(
             child: ListView.builder(
               itemCount: chatMessages.length,
@@ -98,6 +115,10 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
+
+          // Second Ad Banner
+          _adHelper.getBannerAdWidget2(),
+
           if (_messageCount >= _maxMessages)
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -111,9 +132,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Text("Watch Ad to Continue"),
               ),
             ),
+
           if (_messageCount < _maxMessages)
             Padding(
-              padding: const EdgeInsets.only(bottom: 108.0),
+              padding: const EdgeInsets.only(bottom: 10.0),
               child: Row(
                 children: [
                   Expanded(
@@ -135,12 +157,13 @@ class _ChatScreenState extends State<ChatScreen> {
                         : null, // Disable if limit reached
                   )
                 ],
-                // android studio verison string=AIzaSyD_Nh-47V0zjIOPhO1RsvvletXjTb4j9Zw
               ),
             ),
+
+          // Third Ad Banner
+          _adHelper.getBannerAdWidget3(),
         ],
       ),
     );
   }
 }
-

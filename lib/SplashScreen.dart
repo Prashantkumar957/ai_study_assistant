@@ -8,7 +8,7 @@ class Splashscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 1), () {
       // Check if user is signed in
       User? user = FirebaseAuth.instance.currentUser;
 
@@ -24,9 +24,9 @@ class Splashscreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF5271FF),
       body: Center(
-        child: Image.asset("assets/images/sp.png", height: 250, width: 250),
+        child: Image.asset("assets/images/ailogo.png", height: 250, width: 250),
       ),
     );
   }

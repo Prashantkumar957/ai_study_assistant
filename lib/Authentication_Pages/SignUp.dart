@@ -36,7 +36,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF001FA3),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -45,7 +45,7 @@ class _SignupState extends State<Signup> {
             children: [
               const SizedBox(height: 100),
               Image.asset(
-                "assets/images/sp.png",
+                "assets/images/logoai.png",
                 height: 170,
                 width: 170,
               ),
@@ -125,7 +125,7 @@ class _SignupState extends State<Signup> {
                             },
                             child: Text(
                               "Login Now",
-                              style: GoogleFonts.lato(fontSize: 20, color: Colors.blue),
+                              style: GoogleFonts.lato(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
                             ),
                           )
                         ],

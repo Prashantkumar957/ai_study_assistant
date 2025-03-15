@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xFF001FA3),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const SizedBox(height: 100),
               Image.asset(
-                "assets/images/sp.png", // Adjust image path accordingly
+                "assets/images/logoai.png", // Adjust image path accordingly
                 height: 200,
                 width: 200,
               ),
@@ -89,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           hintStyle: GoogleFonts.lato(color: Colors.white),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
+
                           ),
                           prefixIcon: const Icon(Icons.lock, color: Colors.white),
                         ),
@@ -169,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: Text(
                               "Register Now",
-                              style: GoogleFonts.lato(fontSize: 20, color: Colors.blue),
+                              style: GoogleFonts.lato(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
                             ),
                           )
                         ],

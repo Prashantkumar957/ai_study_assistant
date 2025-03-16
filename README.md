@@ -10,6 +10,8 @@ An AI-powered **Study Planner & Doubt Solver** built with **Flutter**. This app 
 - Get instant answers to study-related questions using **Gemini AI**.  
 - Supports text-based and voice-based queries.  
 - Personalized AI recommendations based on past queries. ![Screenshot 2025-02-20 090922](https://github.com/user-attachments/assets/bbe64e1c-4e88-4266-b8ec-6f176a092cf2)![Screenshot 2025-02-20 153735](https://github.com/user-attachments/assets/b320e106-eed3-4310-a185-7cc8e4310744)
+- ![Untitled design (3)](https://github.com/user-attachments/assets/943f7afe-a2db-4da5-a079-2ee190f1ff41)
+
 
  
 

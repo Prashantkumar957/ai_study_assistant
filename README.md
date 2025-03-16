@@ -10,29 +10,25 @@ An AI-powered **Study Planner & Doubt Solver** built with **Flutter**. This app 
 ### 🤖 AI-Powered Chat & Doubt Solver  
 - Get instant answers to study-related questions using **Gemini AI**.  
 - Supports text-based and voice-based queries.  
-- Personalized AI recommendations based on past queries. ![Screenshot 2025-02-20 090922](https://github.com/user-attachments/assets/bbe64e1c-4e88-4266-b8ec-6f176a092cf2)!
--
--
--- ![Untitled design (3)](https://github.com/user-attachments/assets/943f7afe-a2db-4da5-a079-2ee190f1ff41)
+- Personalized AI recommendations based on past queries. 
 
--
-  [Screenshot 2025-02-20 153735](https://github.com/user-attachments/assets/b320e106-eed3-4310-a185-7cc8e4310744)
-
+![Chat](https://github.com/user-attachments/assets/56f85d48-d9df-4511-b651-41503e319fdc)
 
  
 
 ### 📅 AI Study Planner  
 - **Daily & Weekly Planner**: Plan and track study sessions.  
 - **Smart Scheduling**: AI recommends study sessions based on exam dates and difficulty.  
-- **Task Prioritization**: AI suggests priority subjects based on upcoming deadlines.  !![Screenshot 2025-02-20 153937](https://github.com/user-attachments/assets/aaa53143-5bea-4a9a-8ee6-57fef6ff88a4)
-[Screenshot 2025-02-19 205635](https://github.com/user-attachments/assets/0bf13ef6-d6b7-4667-921d-315c2974d8d4)![Screenshot 2025-02-20 154453](https://github.com/user-attachments/assets/541cc007-1128-45d9-b709-a3711494db05)
+- **Task Prioritization**: AI suggests priority subjects based on upcoming deadlines.  
 
+![Weekly Planner (2)](https://github.com/user-attachments/assets/2c78b669-a33b-4e4b-bdd7-038c138b1ab5)
 
 
 ### 📆 Exam Scheduler  
 - Add and manage upcoming **exam dates**.  
 - AI helps optimize study time before exams.  
 - **Countdown Timer** for upcoming tests.  
+![Calendar](https://github.com/user-attachments/assets/fabc4e2e-8455-4467-95a5-ea46d46c3436)
 
 ### 📝 Smart Notes & Reminders  
 - AI-generated **study summaries**.  

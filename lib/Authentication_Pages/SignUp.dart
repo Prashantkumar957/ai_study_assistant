@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ai_study_assistant/SplashScreen.dart';
-import 'package:ai_study_assistant/main.dart';
 import 'package:ai_study_assistant/Home/Home.dart';
-
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -35,110 +32,124 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final formWidth = screenWidth * 0.85; // Adjust form width dynamically
+
     return Scaffold(
-      backgroundColor: Color(0xFF001FA3),
+      backgroundColor: const Color(0xFF001FA3),
       body: SingleChildScrollView(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 100),
-              Image.asset(
-                "assets/images/logoai.png",
-                height: 170,
-                width: 170,
-              ),
-              const SizedBox(height: 40),
-              Text(
-                "CREATE ACCOUNT",
-                style: GoogleFonts.lato(fontSize: 26, color: Colors.white),
-              ),
-              const SizedBox(height: 20),
-              Form(
-                key: _formKey,
-                child: Container(
-                  width: 385,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 3, color: Colors.white),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildTextField(usernameController, "Enter Username", Icons.person),
-                      const SizedBox(height: 15),
-                      _buildTextField(emailController, "Enter Email", Icons.email, isEmail: true),
-                      const SizedBox(height: 15),
-                      _buildTextField(passController, "Enter Password", Icons.lock, isPassword: true),
-                      const SizedBox(height: 15),
-                      _buildTextField(confirmPassController, "Confirm Password", Icons.lock, isPassword: true),
-                      const SizedBox(height: 20),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Column(
+              children: [
+                const SizedBox(height: 80),
+                Image.asset(
+                  "assets/images/logoai.png",
+                  height: 150,
+                  width: 150,
+                ),
+                const SizedBox(height: 30),
+                Text(
+                  "CREATE ACCOUNT",
+                  style: GoogleFonts.lato(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                Form(
+                  key: _formKey,
+                  child: Container(
+                    width: formWidth,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 2, color: Colors.white),
+                    ),
+                    child: Column(
+                      children: [
+                        _buildTextField(usernameController, "Enter Username", Icons.person),
+                        const SizedBox(height: 12),
+                        _buildTextField(emailController, "Enter Email", Icons.email, isEmail: true),
+                        const SizedBox(height: 12),
+                        _buildTextField(passController, "Enter Password", Icons.lock, isPassword: true),
+                        const SizedBox(height: 12),
+                        _buildTextField(confirmPassController, "Confirm Password", Icons.lock, isPassword: true),
+                        const SizedBox(height: 18),
 
-                      ElevatedButton(
-                        onPressed: _registerUser,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          "REGISTER NOW",
-                          style: GoogleFonts.lato(fontSize: 18),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton.icon(
-                        onPressed: _signUpWithGoogle,
-                        icon: Image.asset(
-                          "assets/images/google_logo.png", // Add your Google logo here
-                          height: 24, // Adjust the size of the icon
-                        ),
-                        label: Text(
-                          "Sign Up with Google",
-                          style: GoogleFonts.lato(fontSize: 20),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Already have an account?",
-                            style: GoogleFonts.lato(fontSize: 20, color: Colors.white),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                              );
-                            },
-                            child: Text(
-                              "Login Now",
-                              style: GoogleFonts.lato(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
+                        // Register Button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _registerUser,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-                    ],
+                            child: Text(
+                              "REGISTER NOW",
+                              style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Google Sign-Up Button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: _signUpWithGoogle,
+                            icon: Image.asset(
+                              "assets/images/google_logo.png",
+                              height: 20,
+                            ),
+                            label: Text(
+                              "Sign Up with Google",
+                              style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 14),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                "Already have an account?",
+                                style: GoogleFonts.lato(fontSize: 13, color: Colors.white),
+                                overflow: TextOverflow.ellipsis, // Prevents overflow
+                                softWrap: true, // Allows wrapping if needed
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                                );
+                              },
+                              child: Text(
+                                "Login Now",
+                                style: GoogleFonts.lato(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-
-              ),
-
-              const SizedBox(height: 16),
-
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -153,9 +164,10 @@ class _SignupState extends State<Signup> {
       obscureText: isPassword,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.lato(color: Colors.white),
+        hintStyle: GoogleFonts.lato(color: Colors.white70),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(color: Colors.white, width: 1),
         ),
         prefixIcon: Icon(icon, color: Colors.white),
       ),
@@ -190,22 +202,15 @@ class _SignupState extends State<Signup> {
         );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              "Registered Successfully",
-              style: GoogleFonts.lato(color: Colors.white, fontSize: 20),
-            ),
+            content: Text("Registered Successfully", style: GoogleFonts.lato(color: Colors.white, fontSize: 16)),
             backgroundColor: Colors.green,
-            duration: const Duration(seconds: 3),
-            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 2),
           ),
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              e.toString(),
-              style: GoogleFonts.lato(fontSize: 16, color: Colors.white),
-            ),
+            content: Text("Error: ${e.toString()}", style: GoogleFonts.lato(fontSize: 16, color: Colors.white)),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),
@@ -217,7 +222,7 @@ class _SignupState extends State<Signup> {
   Future<void> _signUpWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return; // User canceled sign-in
+      if (googleUser == null) return;
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
@@ -225,49 +230,18 @@ class _SignupState extends State<Signup> {
         idToken: googleAuth.idToken,
       );
 
-      // Sign in user
-      UserCredential userCredential = await auth.signInWithCredential(credential);
-      User? user = userCredential.user;
-
-      if (user != null) {
-        if (userCredential.additionalUserInfo!.isNewUser) {
-          // New user, can store additional info if needed
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const Home()),
-          );
-        } else {
-          // Existing user, just sign in
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const Home()),
-          );
-        }
-      }
+      await auth.signInWithCredential(credential);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Home()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            "Google Sign-In Successful",
-            style: GoogleFonts.lato(color: Colors.white, fontSize: 20),
-          ),
+          content: Text("Google Sign-In Successful", style: GoogleFonts.lato(color: Colors.white, fontSize: 16)),
           backgroundColor: Colors.green,
-          duration: const Duration(seconds: 3),
-          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 2),
         ),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Error: ${e.toString()}",
-            style: GoogleFonts.lato(fontSize: 16, color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-          duration: const Duration(seconds: 3),
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}"), backgroundColor: Colors.red));
     }
   }
-
 }

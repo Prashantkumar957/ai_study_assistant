@@ -7,7 +7,6 @@ import 'package:ai_study_assistant/Screens/study_tips.dart';
 import 'package:ai_study_assistant/widgets/custom_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'package:flutter/material.dart';
 import 'package:ai_study_assistant/Screens/Weekly.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,8 +14,8 @@ import 'package:intl/intl.dart';
 import 'package:ai_study_assistant/Screens/study_plan.dart';
 import 'package:ai_study_assistant/Screens/settings.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
 import 'package:ai_study_assistant/ad_helper.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -32,9 +31,10 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _adHelper.loadBannerAd1();
-    _adHelper.loadBannerAd2(); // Load a single banner ad
-    _adHelper.loadBannerAd3(); // Load a banner ad
+    _adHelper.loadBannerAd2();
+    _adHelper.loadBannerAd3();
   }
+
   final List<Widget> _pages = [
     HomeContent(),
     CalendarPage(),
@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
     String? email = FirebaseAuth.instance.currentUser?.email;
     String username = email != null ? email.split('@').first.capitalize() : 'Guest';
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Drawer(
       child: ListView(
@@ -88,26 +89,36 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 const SizedBox(width: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Hello, $username!",
-                      style: GoogleFonts.lato(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      email ?? "Not Logged In",
-                      style: GoogleFonts.lato(fontSize: 15, color: Colors.white70),
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          "Hello, $username!",
+                          style: GoogleFonts.lato(
+                            fontSize: screenWidth * 0.05, // Responsive font size
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        email ?? "Not Logged In",
+                        style: GoogleFonts.lato(fontSize: screenWidth * 0.035, color: Colors.white70),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
           _drawerItem(Icons.home, "Home",() {
             _adHelper.showInterstitialAd();
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
           }),
 
           _drawerItem(Icons.smart_toy, "Chat with AI", () {            _adHelper.showInterstitialAd();
@@ -126,17 +137,17 @@ class _HomeState extends State<Home> {
             _showPopup(
               context,
               "Privacy Policy",
-              "We respect your privacy. Your data is securely stored and not shared with third parties.",
+              "We value your privacy. Your data is securely stored and never shared with third parties. To request account deletion, please email us. For more details, click on the privacy policy to learn about the data deletion process.",
               url: "https://aistudyplanner.blogspot.com/2025/02/ai-study-planner-smart-task-exam.html",
             );
           }),
 
           _drawerItem(Icons.feedback, "Help or Feedback", () {
-            _showPopup(context, "Feedback", "We value your feedback! If you have any suggestions, email us at prashantkumar.789@yahoo.com.");
+            _showPopup(context, "Feedback", "We value your feedback! If you have any suggestions, email us at prashantkumar.789@yahoo.com. or  IF you want to delete your account all data than you can email us on our email us data will be deleted within 48hrs");
           }),
 
           _drawerItem(Icons.info, "About App", () {
-            _showPopup(context, "About AI Study Assistant", "AI Study Assistant helps students with notes, quizzes & AI-powered learning.\nVersion: 02.2025");
+            _showPopup(context, "About AI Study Assistant", "AI Study Assistant helps students with notes, quizzes & AI-powered learning.\nVersion: 03.2025.1");
           }),
           _drawerItem(Icons.settings, "Settings", () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
@@ -145,7 +156,6 @@ class _HomeState extends State<Home> {
             await FirebaseAuth.instance.signOut();
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup()));
           }),
-
         ],
       ),
     );
@@ -182,6 +192,7 @@ class _HomeState extends State<Home> {
   }
 
 
+
   Widget _drawerItem(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
       leading: Icon(icon, color: Colors.blue),
@@ -201,6 +212,7 @@ class HomeContent extends StatelessWidget {
     String? email = FirebaseAuth.instance.currentUser?.email;
     String username = email != null ? email.split('@').first.capitalize() : 'Guest';
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -208,7 +220,7 @@ class HomeContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          _buildWelcomeMessage(username, isDarkMode),
+          _buildWelcomeMessage(username, isDarkMode, screenWidth),
           const SizedBox(height: 5),
           Text(
             getFormattedDateTime(),
@@ -236,17 +248,20 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _buildWelcomeMessage(String username, bool isDarkMode) {
+  Widget _buildWelcomeMessage(String username, bool isDarkMode, double screenWidth) {
     return Row(
       children: [
         Icon(Icons.waving_hand, color: Colors.amber, size: 28),
         const SizedBox(width: 8),
-        Text(
-          "Welcome, $username!",
-          style: GoogleFonts.lato(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white : Colors.black,
+        Expanded(
+          child: Text(
+            "Welcome, $username!",
+            style: GoogleFonts.lato(
+              fontSize: screenWidth * 0.05, // Responsive font
+              fontWeight: FontWeight.bold,
+              color: isDarkMode ? Colors.white : Colors.black,
+            ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
@@ -259,7 +274,6 @@ class HomeContent extends StatelessWidget {
       elevation: 4,
       child: InkWell(
         onTap: () {
-
           Navigator.push(context, MaterialPageRoute(builder: (context) => page));
         },
         child: Padding(

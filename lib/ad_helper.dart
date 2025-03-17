@@ -21,7 +21,7 @@ class AdHelper {
   /// Load Banner Ad 1
   void loadBannerAd1() {
     _bannerAd1 = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Test Ad Unit ID
+      adUnitId: 'ca-app-pub-40/4468027928', // Test Ad Unit ID
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -38,7 +38,7 @@ class AdHelper {
   /// Load Banner Ad 2
   void loadBannerAd2() {
     _bannerAd2 = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Test Ad Unit ID
+      adUnitId: 'ca-app-pub-40/4862811416', // Test Ad Unit ID
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -55,7 +55,7 @@ class AdHelper {
   /// Load Banner Ad 3
   void loadBannerAd3() {
     _bannerAd3 = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Test Ad Unit ID
+      adUnitId: 'ca-app-pub-48340/8674063916', // Test Ad Unit ID
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
@@ -105,7 +105,7 @@ class AdHelper {
   /// Load an Interstitial Ad
   void loadInterstitialAd() {
     InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712', // Test Ad Unit ID
+      adUnitId: 'ca-app-pub-0/2295523671', // Test Ad Unit ID
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {

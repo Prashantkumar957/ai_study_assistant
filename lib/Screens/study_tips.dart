@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:ai_study_assistant/ad_helper.dart'; // Import the AdHelper class
 
 void main() async {
@@ -54,6 +53,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
 
     if (message.isEmpty) return;
+
     setState(() {
       _isLoading = true;
       chatMessages.add({"sender": "user", "text": message});
@@ -127,6 +127,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
 
+          // Message Limit Warning
           if (_messageCount >= _maxMessages)
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -134,7 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 onPressed: () {
                   _adHelper.showInterstitialAd();
                   ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Watch an ad to continue chatting!"))
+                    SnackBar(content: Text("Watch an ad to continue chatting!")),
                   );
                   resetMessageCounter();
                 },
@@ -145,30 +146,45 @@ class _ChatScreenState extends State<ChatScreen> {
           if (_messageCount < _maxMessages)
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: Row(
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _messageController,
-                      decoration: InputDecoration(
-                        labelText: "Type a message",
-                        border: OutlineInputBorder(),
+                  // Text Input Row
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _messageController,
+                          enabled: !_isLoading, // Disable input when loading
+                          decoration: InputDecoration(
+                            labelText: "Type a message",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       ),
-                    ),
+                      IconButton(
+                        icon: Icon(Icons.send, color: _messageCount < _maxMessages ? Colors.blue : Colors.grey),
+                        onPressed: _messageCount < _maxMessages && !_isLoading
+                            ? () {
+                          sendMessage(_messageController.text);
+                          _messageController.clear();
+                        }
+                            : null,
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: Icon(Icons.send, color: _messageCount < _maxMessages ? Colors.blue : Colors.grey),
-                    onPressed: _messageCount < _maxMessages
-                        ? () {
-                      sendMessage(_messageController.text);
-                      _messageController.clear();
-                    }
-                        : null,
-                  )
+
+                  // Loading Indicator (Shown Above the TextField)
+                  if (_isLoading)
+                    Positioned(
+                      right: 50,
+                      child: CircularProgressIndicator(),
+                    ),
                 ],
               ),
             ),
 
+          // Banner Ads
           _adHelper.getBannerAdWidget3(),
           _adHelper.getBannerAdWidget2(),
           _adHelper.getBannerAdWidget1(),

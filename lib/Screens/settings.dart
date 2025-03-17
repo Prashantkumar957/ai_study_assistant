@@ -77,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 context,
                 "About AI Study Assistant",
                 "AI Study Assistant is an intelligent learning companion that helps students with notes, quizzes, and interactive study resources.\n\n"
-                    "Version: 02.2025",
+                    "Version: 03.2025.1",
               );
             }),
 

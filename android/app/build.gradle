@@ -43,7 +43,7 @@ android {
         applicationId = "com.prashantkumar.ai_study_assistant.ai_study_assistant"
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
-        versionCode 3 // Change this for new builds
+        versionCode 4 // Change this for new builds
         versionName "03.2025.1" // Match with pubspec.yaml
     }
 

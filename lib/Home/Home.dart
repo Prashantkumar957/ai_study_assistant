@@ -3,6 +3,7 @@ import 'package:ai_study_assistant/Screens/calendar.dart';
 import 'package:ai_study_assistant/Screens/daily_task.dart';
 import 'package:ai_study_assistant/Screens/focus.dart';
 import 'package:ai_study_assistant/Screens/notification.dart';
+import 'package:ai_study_assistant/Screens/report_Screen.dart';
 import 'package:ai_study_assistant/Screens/study_tips.dart';
 import 'package:ai_study_assistant/widgets/custom_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -125,7 +126,9 @@ class _HomeState extends State<Home> {
 
           Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
           }),
-
+          _drawerItem(Icons.report, "Report Us", () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ReportScreen()));
+          }),
           _drawerItem(Icons.notifications_active, "Notifications", () {
 
             Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
@@ -143,8 +146,9 @@ class _HomeState extends State<Home> {
           }),
 
           _drawerItem(Icons.feedback, "Help or Feedback", () {
-            _showPopup(context, "Feedback", "We value your feedback! If you have any suggestions, email us at prashantkumar.789@yahoo.com. or  IF you want to delete your account all data than you can email us on our email us data will be deleted within 48hrs");
+            _showPopup(context, "Feedback", "We value your feedback! If you have any suggestions, email us at prashantkumar.789@yahoo.com. or  If you want to delete your account all data than you can email us on our email us data will be deleted within 48hrs");
           }),
+
 
           _drawerItem(Icons.info, "About App", () {
             _showPopup(context, "About AI Study Assistant", "AI Study Assistant helps students with notes, quizzes & AI-powered learning.\nVersion: 03.2025.1");

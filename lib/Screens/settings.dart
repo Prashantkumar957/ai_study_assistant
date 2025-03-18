@@ -121,7 +121,6 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
               SizedBox(height:25,),
-            _adHelper.getBannerAdWidget1(),
             _adHelper.getBannerAdWidget2(),
             _adHelper.getBannerAdWidget3(),
 
